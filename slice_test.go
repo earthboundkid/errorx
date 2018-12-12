@@ -37,3 +37,31 @@ func ExampleSlice() {
 	// <nil>
 	// 1 error: even error!
 }
+
+func ExampleSlice_extendedFormat() {
+	var errs errors.Slice
+
+	// Collect several errors
+	err := fmt.Errorf("error 1")
+	errs.Push(err)
+
+	err = fmt.Errorf("error 2")
+	errs.Push(err)
+
+	// ...and a nil error
+	err = nil
+	errs.Push(err)
+
+	// ...then a real error again
+	err = fmt.Errorf("error 3")
+	errs.Push(err)
+
+	// Now merge and output them in extended format
+	fmt.Printf("%#v", errs.Merge())
+
+	// Output:
+	// 3 errors:
+	// 	error 1: error 1
+	// 	error 2: error 2
+	// 	error 3: error 3
+}
