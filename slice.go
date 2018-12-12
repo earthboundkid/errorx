@@ -42,5 +42,9 @@ func (s Slice) Error() string {
 	if len(a) == 0 {
 		return "<empty error slice>"
 	}
-	return fmt.Sprintf("%d errors: %s", len(a), strings.Join(a, "; "))
+	plural := "s"
+	if len(a) == 1 {
+		plural = ""
+	}
+	return fmt.Sprintf("%d error%s: %s", len(a), plural, strings.Join(a, "; "))
 }
