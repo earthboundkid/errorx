@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// Merge is a convenience method for making a Slice of errors and calling the Merge method.
 func Merge(errs ...error) error {
 	s := Slice(errs)
 	return s.Merge()
@@ -12,6 +13,9 @@ func Merge(errs ...error) error {
 
 type Slice []error
 
+// Push extends a Slice with an error if the error is non-nil.
+//
+// If a Slice is passed to Push, the result is flattened.
 func (s *Slice) Push(err error) {
 	if s2, ok := err.(Slice); ok {
 		*s = append(*s, s2...)
@@ -20,6 +24,9 @@ func (s *Slice) Push(err error) {
 	}
 }
 
+// Merge removes any nil errors from the Slice, and then either
+// returns nil if the length of the Slice is zero or returns
+// the Slice if it is non-zero.
 func (s *Slice) Merge() error {
 	errsFiltered := (*s)[:0]
 	for _, err := range *s {
@@ -34,6 +41,9 @@ func (s *Slice) Merge() error {
 	return s
 }
 
+var _ error = Slice{}
+
+// Error implements the error interface.
 func (s Slice) Error() string {
 	a := s.errors()
 	if len(a) == 0 {
@@ -56,6 +66,9 @@ func (s Slice) errors() []string {
 	return a
 }
 
+var _ fmt.Formatter = Slice{}
+
+// Format implements fmt.Formatter.
 func (s Slice) Format(state fmt.State, verb rune) {
 	switch verb {
 	case 's', 'q', 'v':
