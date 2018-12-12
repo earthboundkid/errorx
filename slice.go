@@ -13,7 +13,9 @@ func Merge(errs ...error) error {
 type Slice []error
 
 func (s *Slice) Push(err error) {
-	if err != nil {
+	if s2, ok := err.(Slice); ok {
+		*s = append(*s, s2...)
+	} else if err != nil {
 		*s = append(*s, err)
 	}
 }
