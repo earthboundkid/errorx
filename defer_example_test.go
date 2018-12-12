@@ -28,7 +28,7 @@ func ExampleDefer() {
 		// do stuff...
 		return err
 	}()
-	fmt.Println("return1 ==", return1)
+	fmt.Println(return1) // == <nil>
 
 	// Use errors.Defer and a named return to capture the error
 	return2 := func() (err error) {
@@ -40,9 +40,9 @@ func ExampleDefer() {
 		// do stuff...
 		return err
 	}()
-	fmt.Println("return2 ==", return2)
+	fmt.Println(return2) // == <had problem closing!>
 
 	// Output:
-	// return1 == <nil>
-	// return2 == <had problem closing!>
+	// <nil>
+	// <had problem closing!>
 }
