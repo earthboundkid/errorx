@@ -65,3 +65,35 @@ func ExampleSlice_extendedFormat() {
 	// 	error 2: error 2
 	// 	error 3: error 3
 }
+
+func ExampleMerge() {
+	// A function that sometimes returns an error
+	called := 0
+	someFunc := func() error {
+		called++
+		if called%2 == 0 {
+			return fmt.Errorf("even error: %d!", called)
+		}
+		return nil
+	}
+
+	// We do a series of operations that might return an error.
+	err := someFunc()
+
+	// This time, it didn't return an error.
+	fmt.Printf("%#v\n", err)
+
+	// After each operation, we merge it into our existing error variable
+	// then do the next operation.
+	err = errors.Merge(err, someFunc())
+	err = errors.Merge(err, someFunc())
+	err = errors.Merge(err, someFunc())
+
+	// Finally, we return the result
+	fmt.Printf("%#v", err)
+	// Output:
+	// <nil>
+	// 2 errors:
+	// 	error 1: even error: 2!
+	// 	error 2: even error: 4!
+}

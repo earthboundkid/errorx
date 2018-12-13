@@ -20,6 +20,8 @@ type Slice []error
 func (s *Slice) Push(err error) {
 	if s2, ok := err.(Slice); ok {
 		*s = append(*s, s2...)
+	} else if s2, ok := err.(*Slice); ok && s2 != nil {
+		*s = append(*s, *s2...)
 	} else if err != nil {
 		*s = append(*s, err)
 	}
@@ -29,11 +31,10 @@ func (s *Slice) Push(err error) {
 // returns nil if the length of the Slice is zero or returns
 // the Slice if it is non-zero.
 func (s *Slice) Merge() error {
-	errsFiltered := (*s)[:0]
+	// Making a copy in case we need to flatten a nested Slice
+	errsFiltered := make(Slice, 0, len(*s))
 	for _, err := range *s {
-		if err != nil {
-			errsFiltered = append(errsFiltered, err)
-		}
+		errsFiltered.Push(err)
 	}
 	*s = errsFiltered
 	if len(errsFiltered) < 1 {
