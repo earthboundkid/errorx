@@ -11,6 +11,7 @@ func Merge(errs ...error) error {
 	return s.Merge()
 }
 
+// Slice is a slice of errors that implements the error interface itself.
 type Slice []error
 
 // Push extends a Slice with an error if the error is non-nil.
