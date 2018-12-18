@@ -37,13 +37,13 @@ func (s *Slice) Merge() error {
 		errsFiltered.Push(err)
 	}
 	*s = errsFiltered
-	if len(*s) < 1 {
+	if len(errsFiltered) < 1 {
 		return nil
 	}
-	if len(*s) == 1 {
-		return (*s)[0]
+	if len(errsFiltered) == 1 {
+		return (errsFiltered)[0]
 	}
-	return s
+	return errsFiltered
 }
 
 var _ error = Slice{}
