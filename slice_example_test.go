@@ -27,15 +27,16 @@ func ExampleSlice() {
 	// Now merging them to produces <nil> error
 	fmt.Println(errs.Merge())
 
-	// But if we add a non nil error...
+	// But if we add non-nil errors...
 	err = someFunc()
+	errs.Push(err)
 	errs.Push(err)
 
 	// Merge returns non-nil
 	fmt.Println(errs.Merge())
 	// Output:
 	// <nil>
-	// 1 error: even error!
+	// 2 errors: even error!; even error!
 }
 
 func ExampleSlice_extendedFormat() {
