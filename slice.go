@@ -13,12 +13,13 @@ func Merge(errs ...error) error {
 	return s.Merge()
 }
 
-// Slice is a slice of errors that implements the error interface itself.
+// Slice is a slice of errors. Use it to collect possible errors
+// then create a Multierr with the Merge method.
 type Slice []error
 
 // Push extends a Slice with an error if the error is non-nil.
 //
-// If a Slice is passed to Push, the result is flattened.
+// If a Multierr is passed to Push, the result is flattened.
 func (s *Slice) Push(err error) {
 	if s2 := new(Multierr); xerrors.As(err, s2) {
 		*s = append(*s, s2.s...)
@@ -90,7 +91,7 @@ func errorsToStrings(s []error) []string {
 
 var _ fmt.Formatter = Multierr{}
 
-// Format implements fmt.Formatter.
+// Format implements fmt.Formatter. Adds %+v verb to print sub-errors.
 func (m Multierr) Format(state fmt.State, verb rune) {
 	switch verb {
 	case 's', 'q', 'v':
