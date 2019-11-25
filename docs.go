@@ -1,2 +1,2 @@
-// Package errors contains some simple error helpers
-package errors // import "github.com/carlmjohnson/errors"
+// package errutil contains some simple error helpers
+package errutil

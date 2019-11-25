@@ -1,9 +1,9 @@
-package errors_test
+package errutil_test
 
 import (
 	"fmt"
 
-	"github.com/carlmjohnson/errors"
+	"github.com/carlmjohnson/errutil"
 )
 
 type closer struct{}
@@ -16,7 +16,7 @@ func openThingie() (c closer, err error) { return }
 
 // Calling Close() on an io.WriteCloser can return an important error
 // encountered while flushing to disk. Don't risk missing them by
-// using a plain defer w.Close(). Use errors.Defer to capture the return value.
+// using a plain defer w.Close(). Use errutil.Defer to capture the return value.
 func ExampleDefer() {
 	// If you just defer a close call, you can miss an error
 	return1 := func() error {
@@ -30,13 +30,13 @@ func ExampleDefer() {
 	}()
 	fmt.Println(return1) // == <nil>
 
-	// Use errors.Defer and a named return to capture the error
+	// Use errutil.Defer and a named return to capture the error
 	return2 := func() (err error) {
 		thing, err := openThingie()
 		if err != nil {
 			return err
 		}
-		defer errors.Defer(&err, thing.Close)
+		defer errutil.Defer(&err, thing.Close)
 		// do stuff...
 		return err
 	}()
