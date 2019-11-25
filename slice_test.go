@@ -19,7 +19,7 @@ func TestPush(t *testing.T) {
 	errs.Push(err)
 	checkLength(t, errs, 2)
 
-	errs.Push(errs)
+	errs.Push(errs.Merge())
 	checkLength(t, errs, 4)
 }
 

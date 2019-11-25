@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+
+	"golang.org/x/xerrors"
 )
 
 // ExitCoder is an optional interface that errors can implement to change
@@ -29,8 +31,8 @@ func Execute(f func([]string) error, args []string) (exitCode int) {
 	if err == flag.ErrHelp {
 		return 2
 	}
-	if _, ok := err.(Slice); ok {
-		fmt.Fprintf(os.Stderr, "Multiple runtime errors: %#v", err)
+	if s2 := new(Multierr); xerrors.As(err, s2) {
+		fmt.Fprintf(os.Stderr, "Multiple runtime errors: %+v", err)
 	} else {
 		fmt.Fprintf(os.Stderr, "Runtime error: %v\n", err)
 	}

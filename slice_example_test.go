@@ -58,7 +58,7 @@ func ExampleSlice_extendedFormat() {
 	errs.Push(err)
 
 	// Now merge and output them in extended format
-	fmt.Printf("%#v", errs.Merge())
+	fmt.Printf("%+v", errs.Merge())
 
 	// Output:
 	// 3 errors:
@@ -82,7 +82,7 @@ func ExampleMerge() {
 	err := someFunc()
 
 	// This time, it didn't return an error.
-	fmt.Printf("%#v\n", err)
+	fmt.Printf("%+v\n", err)
 
 	// After each operation, we merge it into our existing error variable
 	// then do the next operation.
@@ -91,7 +91,7 @@ func ExampleMerge() {
 	err = errors.Merge(err, someFunc())
 
 	// Finally, we return the result
-	fmt.Printf("%#v", err)
+	fmt.Printf("%+v", err)
 	// Output:
 	// <nil>
 	// 2 errors:
