@@ -1,10 +1,9 @@
 package errutil
 
 import (
+	"errors"
 	"fmt"
 	"strings"
-
-	"golang.org/x/xerrors"
 )
 
 // Merge is a convenience method for making a Slice of errors and calling the Merge method.
@@ -21,7 +20,7 @@ type Slice []error
 //
 // If a Multierr is passed to Push, the result is flattened.
 func (s *Slice) Push(err error) {
-	if s2 := new(Multierr); xerrors.As(err, s2) {
+	if s2 := new(Multierr); errors.As(err, s2) {
 		*s = append(*s, s2.s...)
 	} else if err != nil {
 		*s = append(*s, err)
