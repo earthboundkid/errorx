@@ -90,11 +90,19 @@ func ExampleMerge() {
 	err = errutil.Merge(err, someFunc())
 	err = errutil.Merge(err, someFunc())
 
-	// Finally, we return the result
+	// Finally, we can return the result
 	fmt.Printf("%+v", err)
+
+	// Or loop through results
+	for i, suberr := range errutil.AsSlice(err) {
+		fmt.Printf("suberr[%d]: %v\n", i, suberr)
+	}
+
 	// Output:
 	// <nil>
 	// 2 errors:
 	// 	error 1: even error: 2!
 	// 	error 2: even error: 4!
+	// suberr[0]: even error: 2!
+	// suberr[1]: even error: 4!
 }

@@ -16,15 +16,25 @@ func Merge(errs ...error) error {
 // then create a Multierr with the Merge method.
 type Slice []error
 
+// AsSlice converts err into Slice. If err is nil, the slice has length 0.
+// If the err is a Multierr, it returns the underlying Slice.
+// All other errors become a slice of length 1.
+func AsSlice(err error) Slice {
+	if err == nil {
+		return nil
+	}
+	if me := new(Multierr); errors.As(err, me) {
+		return me.Slice()
+	}
+	return Slice{err}
+}
+
 // Push extends a Slice with an error if the error is non-nil.
 //
 // If a Multierr is passed to Push, the result is flattened.
 func (s *Slice) Push(err error) {
-	if s2 := new(Multierr); errors.As(err, s2) {
-		*s = append(*s, s2.s...)
-	} else if err != nil {
-		*s = append(*s, err)
-	}
+	s2 := AsSlice(err)
+	*s = append(*s, s2...)
 }
 
 // Merge first removes any nil errors from the Slice.
