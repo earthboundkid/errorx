@@ -1,0 +1,29 @@
+name: Go
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Go 1.16
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.16
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v1
+
+    - name: Download modules
+      run: |
+        go mod download
+        cd compat-test
+        go mod download
+
+    - name: Test
+      run: |
+        go test ./... -v
+        cd compat-test
+        go test ./... -v

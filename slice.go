@@ -23,8 +23,8 @@ func AsSlice(err error) Slice {
 	if err == nil {
 		return nil
 	}
-	if me := new(Multierr); errors.As(err, me) {
-		return me.Slice()
+	if me := (Multierr)(nil); errors.As(err, &me) {
+		return me.Errors()
 	}
 	return Slice{err}
 }
@@ -55,28 +55,35 @@ func (s *Slice) Merge() error {
 	if len(errsFiltered) == 1 {
 		return (errsFiltered)[0]
 	}
-	return Multierr{errsFiltered}
+	return multierr{errsFiltered}
 }
 
-// Multierr wraps multiple errors.
-type Multierr struct {
+// Multierr is an interface allowing external types containing
+// multiple errors (such as uber-go/multierr) to be treated as a Slice.
+type Multierr interface {
+	error
+	Errors() []error
+}
+
+// multierr wraps multiple errors.
+type multierr struct {
 	s Slice
 }
 
-var _ error = Multierr{}
+var _ Multierr = multierr{}
 
-// Slice returns the underlying slice of errors.
-func (m Multierr) Slice() Slice {
+// Errors fulfills Multierr
+func (m multierr) Errors() []error {
 	return m.s
 }
 
 // Strings returns the strings from the underlying errors.
-func (m Multierr) Strings() []string {
+func (m multierr) Strings() []string {
 	return errorsToStrings(m.s)
 }
 
 // Error implements the error interface.
-func (m Multierr) Error() string {
+func (m multierr) Error() string {
 	a := m.Strings()
 	if len(a) == 0 {
 		return "<empty error slice>"
@@ -98,10 +105,10 @@ func errorsToStrings(s []error) []string {
 	return a
 }
 
-var _ fmt.Formatter = Multierr{}
+var _ fmt.Formatter = multierr{}
 
 // Format implements fmt.Formatter. Adds %+v verb to print sub-errors.
-func (m Multierr) Format(state fmt.State, verb rune) {
+func (m multierr) Format(state fmt.State, verb rune) {
 	switch verb {
 	case 's', 'q', 'v':
 		if verb == 'v' && state.Flag('+') {
