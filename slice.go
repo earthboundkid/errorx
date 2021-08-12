@@ -19,12 +19,17 @@ type Slice []error
 // AsSlice converts err into Slice. If err is nil, the slice has length 0.
 // If the err is a Multierr, it returns the underlying Slice.
 // All other errors become a slice of length 1.
+//
+// AsSlice also understands how to unwrap hashicorp/go-multierror.
 func AsSlice(err error) Slice {
 	if err == nil {
 		return nil
 	}
 	if me := (Multierr)(nil); errors.As(err, &me) {
 		return me.Errors()
+	}
+	if me := (hashimultierr)(nil); errors.As(err, &me) {
+		return me.WrappedErrors()
 	}
 	return Slice{err}
 }
@@ -63,6 +68,10 @@ func (s *Slice) Merge() error {
 type Multierr interface {
 	error
 	Errors() []error
+}
+
+type hashimultierr interface {
+	WrappedErrors() []error
 }
 
 // multierr wraps multiple errors.
