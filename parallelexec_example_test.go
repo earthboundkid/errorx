@@ -16,10 +16,16 @@ func ExampleExecParallel() {
 	}, func() error {
 		time.Sleep(1 * time.Second)
 		return errors.New("one error")
+	}, func() error {
+		time.Sleep(1 * time.Second)
+		panic("ahhh")
 	})
 	fmt.Println("ran parallel?", time.Since(start) < 2*time.Second)
-	fmt.Printf("err == %v\n", err)
+	for i, suberr := range errutil.AsSlice(err) {
+		fmt.Printf("error %d: %v\n", i+1, suberr)
+	}
 	// Output:
 	// ran parallel? true
-	// err == one error
+	// error 1: one error
+	// error 2: panic: ahhh
 }
