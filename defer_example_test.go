@@ -26,7 +26,7 @@ func ExampleDefer() {
 		}
 		defer thing.Close() // oh no, this returned an error!
 		// do stuff...
-		return err
+		return nil
 	}()
 	fmt.Println(return1) // == <nil>
 
@@ -38,7 +38,7 @@ func ExampleDefer() {
 		}
 		defer errutil.Defer(&err, thing.Close)
 		// do stuff...
-		return err
+		return nil
 	}()
 	fmt.Println(return2) // == <had problem closing!>
 
