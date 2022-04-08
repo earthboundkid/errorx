@@ -24,6 +24,7 @@ func TestPush(t *testing.T) {
 }
 
 func checkLength(t *testing.T, errs Slice, want int) {
+	t.Helper()
 	if len(errs) != want {
 		t.Errorf("wrong length for Slice: want %d, got %d", want, len(errs))
 	}
