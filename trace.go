@@ -6,14 +6,6 @@ import (
 	"runtime"
 )
 
-// Prefix will prefix an error with a fixed string if it is non-nil.
-func Prefix(errp *error, prefixformat string, a ...any) {
-	if err := *errp; err != nil {
-		prefix := fmt.Sprintf(prefixformat, a...)
-		*errp = fmt.Errorf("%s: %w", prefix, err)
-	}
-}
-
 // Trace prefixes an error with caller information if the error is not nil.
 func Trace(errp *error) {
 	if err := *errp; err != nil {

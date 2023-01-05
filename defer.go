@@ -1,11 +1,10 @@
 package errorx
 
+import "errors"
+
 // Defer is for use when defering a function call that can return an error.
-// If the referenced error is nil but the callback returns a non-nil error,
-// it sets the reference to the value of the returned error.
+// The error value of errp and the return value of f are joined with errors.Join.
 func Defer(errp *error, f func() error) {
 	newErr := f()
-	if *errp == nil {
-		*errp = newErr
-	}
+	*errp = errors.Join(*errp, newErr)
 }

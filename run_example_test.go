@@ -8,9 +8,9 @@ import (
 	"github.com/carlmjohnson/errorx"
 )
 
-func ExampleExecParallel() {
+func ExampleRun() {
 	start := time.Now()
-	err := errorx.ExecParallel(func() error {
+	err := errorx.Run(func() error {
 		time.Sleep(1 * time.Second)
 		return nil
 	}, func() error {
@@ -21,11 +21,8 @@ func ExampleExecParallel() {
 		panic("ahhh")
 	})
 	fmt.Println("ran parallel?", time.Since(start) < 2*time.Second)
-	for i, suberr := range errorx.AsSlice(err) {
-		fmt.Printf("error %d: %v\n", i+1, suberr)
-	}
+	fmt.Printf("error: %q", err)
 	// Output:
 	// ran parallel? true
-	// error 1: one error
-	// error 2: panic: ahhh
+	// error: "one error\npanic: ahhh"
 }
