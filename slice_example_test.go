@@ -1,9 +1,9 @@
-package errutil_test
+package errorx_test
 
 import (
 	"fmt"
 
-	"github.com/carlmjohnson/errutil"
+	"github.com/carlmjohnson/errorx"
 )
 
 func ExampleSlice() {
@@ -18,7 +18,7 @@ func ExampleSlice() {
 	}
 
 	// The empty value can be used
-	var errs errutil.Slice
+	var errs errorx.Slice
 
 	// Do something that returns an error sometimes
 	err := someFunc()
@@ -40,7 +40,7 @@ func ExampleSlice() {
 }
 
 func ExampleSlice_extendedFormat() {
-	var errs errutil.Slice
+	var errs errorx.Slice
 
 	// Collect several errors
 	err := fmt.Errorf("error 1")
@@ -86,15 +86,15 @@ func ExampleMerge() {
 
 	// After each operation, we merge it into our existing error variable
 	// then do the next operation.
-	err = errutil.Merge(err, someFunc())
-	err = errutil.Merge(err, someFunc())
-	err = errutil.Merge(err, someFunc())
+	err = errorx.Merge(err, someFunc())
+	err = errorx.Merge(err, someFunc())
+	err = errorx.Merge(err, someFunc())
 
 	// Finally, we can return the result
 	fmt.Printf("%+v", err)
 
 	// Or loop through results
-	for i, suberr := range errutil.AsSlice(err) {
+	for i, suberr := range errorx.AsSlice(err) {
 		fmt.Printf("suberr[%d]: %v\n", i, suberr)
 	}
 

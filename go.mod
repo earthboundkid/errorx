@@ -1,3 +1,3 @@
-module github.com/carlmjohnson/errutil
+module github.com/carlmjohnson/errorx
 
-go 1.18
+go 1.20

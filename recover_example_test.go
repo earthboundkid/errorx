@@ -1,14 +1,14 @@
-package errutil_test
+package errorx_test
 
 import (
 	"fmt"
 
-	"github.com/carlmjohnson/errutil"
+	"github.com/carlmjohnson/errorx"
 )
 
 func ExampleRecover() {
 	maybePanic := func(throws bool) (err error) {
-		defer errutil.Recover(&err)
+		defer errorx.Recover(&err)
 
 		if throws {
 			panic("ahhh!")

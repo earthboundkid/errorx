@@ -1,3 +1,3 @@
-# Errutil [![GoDoc](https://godoc.org/github.com/carlmjohnson/errutil?status.svg)](https://godoc.org/github.com/carlmjohnson/errutil) [![Go Report Card](https://goreportcard.com/badge/github.com/carlmjohnson/errutil)](https://goreportcard.com/report/github.com/carlmjohnson/errutil)
+# Errorx [![GoDoc](https://godoc.org/github.com/carlmjohnson/errorx?status.svg)](https://godoc.org/github.com/carlmjohnson/errorx) [![Go Report Card](https://goreportcard.com/badge/github.com/carlmjohnson/errorx)](https://goreportcard.com/report/github.com/carlmjohnson/errorx)
 
 Some Go error helpers

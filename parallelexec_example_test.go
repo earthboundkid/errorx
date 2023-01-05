@@ -1,16 +1,16 @@
-package errutil_test
+package errorx_test
 
 import (
 	"errors"
 	"fmt"
 	"time"
 
-	"github.com/carlmjohnson/errutil"
+	"github.com/carlmjohnson/errorx"
 )
 
 func ExampleExecParallel() {
 	start := time.Now()
-	err := errutil.ExecParallel(func() error {
+	err := errorx.ExecParallel(func() error {
 		time.Sleep(1 * time.Second)
 		return nil
 	}, func() error {
@@ -21,7 +21,7 @@ func ExampleExecParallel() {
 		panic("ahhh")
 	})
 	fmt.Println("ran parallel?", time.Since(start) < 2*time.Second)
-	for i, suberr := range errutil.AsSlice(err) {
+	for i, suberr := range errorx.AsSlice(err) {
 		fmt.Printf("error %d: %v\n", i+1, suberr)
 	}
 	// Output:

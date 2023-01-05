@@ -1,4 +1,4 @@
-package errutil
+package errorx
 
 // Defer is for use when defering a function call that can return an error.
 // If the referenced error is nil but the callback returns a non-nil error,
