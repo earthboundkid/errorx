@@ -30,7 +30,9 @@ func ExampleTrace() {
 	fmt.Println(traceErr2(1, 1))
 	// Output:
 	// <nil>
-	// problem in github.com/carlmjohnson/errorx_test.traceErr1 (trace_example_test.go:13): oh no!
+	// @github.com/carlmjohnson/errorx_test.traceErr1 (trace_example_test.go:13)
+	// oh no!
 	// <nil>
-	// problem in github.com/carlmjohnson/errorx_test.traceErr2 (trace_example_test.go:21): uh oh!
+	// @github.com/carlmjohnson/errorx_test.traceErr2 (trace_example_test.go:21)
+	// uh oh!
 }
