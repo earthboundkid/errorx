@@ -3,7 +3,7 @@ package errorx_test
 import (
 	"fmt"
 
-	"github.com/carlmjohnson/errorx"
+	"github.com/earthboundkid/errorx/v2"
 )
 
 type closer struct{}
