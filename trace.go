@@ -1,7 +1,6 @@
 package errorx
 
 import (
-	"errors"
 	"fmt"
 	"path/filepath"
 	"runtime"
@@ -11,16 +10,17 @@ import (
 func Trace(errp *error) {
 	if err := *errp; err != nil {
 		pc, file, line, ok := runtime.Caller(1)
-		te := traceErr{pc, file, line, ok}
-		*errp = errors.Join(&te, err)
+		te := traceErr{pc, file, line, ok, err}
+		*errp = te
 	}
 }
 
 type traceErr struct {
-	pc   uintptr
-	file string
-	line int
-	ok   bool
+	pc    uintptr
+	file  string
+	line  int
+	ok    bool
+	cause error
 }
 
 func (te traceErr) Error() string {
@@ -30,6 +30,10 @@ func (te traceErr) Error() string {
 	f := runtime.FuncForPC(te.pc)
 	file := filepath.Base(te.file)
 
-	return fmt.Sprintf("@%s (%s:%d)",
-		f.Name(), file, te.line)
+	return fmt.Sprintf("@%s (%s:%d)\n%v",
+		f.Name(), file, te.line, te.cause)
+}
+
+func (te traceErr) Unwrap() error {
+	return te.cause
 }
