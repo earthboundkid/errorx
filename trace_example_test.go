@@ -3,6 +3,7 @@ package errorx_test
 import (
 	"errors"
 	"fmt"
+	"regexp"
 
 	"github.com/earthboundkid/errorx/v2"
 )
@@ -23,16 +24,26 @@ func traceErr2(x, y int) (err error) {
 	return nil
 }
 
+func printErr(err error) {
+	if err == nil {
+		fmt.Println(nil)
+		return
+	}
+	// For test stability, replace line numbers
+	re := regexp.MustCompile(`:(\d+)`)
+	fmt.Println(re.ReplaceAllString(err.Error(), ":XX"))
+}
+
 func ExampleTrace() {
-	fmt.Println(traceErr1(true))
-	fmt.Println(traceErr1(false))
-	fmt.Println(traceErr2(1, -1))
-	fmt.Println(traceErr2(1, 1))
+	printErr(traceErr1(true))
+	printErr(traceErr1(false))
+	printErr(traceErr2(1, -1))
+	printErr(traceErr2(1, 1))
 	// Output:
 	// <nil>
-	// @github.com/earthboundkid/errorx/v2_test.traceErr1 (trace_example_test.go:13)
+	// @github.com/earthboundkid/errorx/v2_test.traceErr1 (trace_example_test.go:XX)
 	// oh no!
 	// <nil>
-	// @github.com/earthboundkid/errorx/v2_test.traceErr2 (trace_example_test.go:21)
+	// @github.com/earthboundkid/errorx/v2_test.traceErr2 (trace_example_test.go:XX)
 	// uh oh!
 }
