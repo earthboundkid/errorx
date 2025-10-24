@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/carlmjohnson/errorx"
+	"github.com/earthboundkid/errorx/v2"
 )
 
 func traceErr1(ok bool) (err error) {
@@ -30,9 +30,9 @@ func ExampleTrace() {
 	fmt.Println(traceErr2(1, 1))
 	// Output:
 	// <nil>
-	// @github.com/carlmjohnson/errorx_test.traceErr1 (trace_example_test.go:13)
+	// @github.com/earthboundkid/errorx/v2_test.traceErr1 (trace_example_test.go:13)
 	// oh no!
 	// <nil>
-	// @github.com/carlmjohnson/errorx_test.traceErr2 (trace_example_test.go:21)
+	// @github.com/earthboundkid/errorx/v2_test.traceErr2 (trace_example_test.go:21)
 	// uh oh!
 }

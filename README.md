@@ -1,4 +1,4 @@
-# Errorx [![GoDoc](https://godoc.org/github.com/carlmjohnson/errorx?status.svg)](https://godoc.org/github.com/carlmjohnson/errorx) [![Go Report Card](https://goreportcard.com/badge/github.com/carlmjohnson/errorx)](https://goreportcard.com/report/github.com/carlmjohnson/errorx)
+# Errorx [![GoDoc](https://godoc.org/github.com/earthboundkid/errorx/v2?status.svg)](https://godoc.org/github.com/earthboundkid/errorx/v2) [![Go Report Card](https://goreportcard.com/badge/github.com/earthboundkid/errorx/v2)](https://goreportcard.com/report/github.com/earthboundkid/errorx/v2)
 
 Some Go error helpers.
 
